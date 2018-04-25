@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Network User Info</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <meta name="description" content="particles.js is a lightweight JavaScript library for creating particles.">
+  <meta name="author" content="Vincent Garreau" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" media="screen" href="css/style.css">
+  
+  
+<style>
+
+table { width: 380px; padding: 10px 10px 10px 10px;
+	
+}
+
+table td.left {
+	font-size: 11px;
+	text-align:right;
+	color:darkblue;
+	width: 200;
+	font-family: Arial, Helvetica, sans-serif;
+	
+	background: rgba(255, 255, 255, 0.8);
+	padding: 2px 2px 2px 2px;
+}
+
+table td.left1 {
+	font-size: 11px;
+	text-align:right;
+	color:darkblue;
+	width: 200;
+	font-family: Arial, Helvetica, sans-serif;
+	
+	background: rgba(205, 255, 255, 0.8);
+	padding: 2px 2px 2px 2px;
+}
+
+table td.left2 {
+	font-size: 11px;
+	text-align:right;
+	color:blue;
+	width: 200;
+	font-family: Arial, Helvetica, sans-serif;
+	
+	background: rgba(255, 255, 255, 0.8);
+	padding: 2px 2px 2px 2px;
+}
+
+table td.right {
+	color:green;
+	width: 180;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	
+	background: rgba(255, 255, 255, 0.8);
+	padding: 2px 2px 3px 5px;
+}
+
+table td.right2 {
+	color:green;
+	width: 180;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	
+	background: rgba(255, 255, 255, 0.8);
+	padding: 2px 2px 3px 5px;
+	vertical-align:top;text-align:center;
+}
+
+div.find {
+	background: rgba(255, 255, 255, 0.8);
+	padding: 5px 5px 5px 5px;
+}
+div.find input {
+	background: rgba(255, 255, 255, 0.8);
+	padding: 5px 5px 5px 5px;
+	font-size: 18px;
+}
+</style>
+</head>
+<body>
+
+
+<script>
+function sendi()
+{
+	var basename = $('#names').val();
+
+	$.getJSON('https://cors-anywhere.herokuapp.com/https://vox.community/@'+basename+'.json', function(data) {
+        
+	var text = `
+		<table width="500px">
+		<tr><td class="left"><img src=${data.user.json_metadata.profile.profile_image} width="160px"></td>
+		<td class="right2">
+		<p><br>${data.user.json_metadata.profile.about}</p>
+		<p><br><br>Батарея: <b>${data.user.voting_power/100} %</b>
+		<br>Всего постов: ${data.user.post_count}</p>
+		
+		</td></tr>
+		
+		<tr><td class="left"><big>Name:</big></td><td class="right"><big><b>${data.user.name}</b></big></td></tr>
+		<tr><td class="left">UserId:</td><td class="right">${data.user.id}</td></tr>
+		<tr><td class="left">Proxy:</td><td class="right">${data.user.proxy}</td></tr>
+
+		<tr><td class="left1">&nbsp;Общие сведения аккаунта</td><td class="right">&nbsp;</td></tr>
+
+		<tr><td class="left">Last owner update:</td><td class="right">${data.user.last_owner_update}</td></tr>
+		<tr><td class="left">Last account update:</td><td class="right">${data.user.last_account_update}</td></tr>
+		<tr><td class="left">Created:</td><td class="right">${data.user.created}</td></tr>
+
+		<tr><td class="left">Mined:</td><td class="right">${data.user.mined}</td></tr>
+		<tr><td class="left">Owner challenged:</td><td class="right">${data.user.owner_challenged}</td></tr>
+		<tr><td class="left">Active challenged:</td><td class="right">${data.user.active_challenged}</td></tr>
+		<tr><td class="left">Last owner proved:</td><td class="right">${data.user.last_owner_proved}</td></tr>
+		<tr><td class="left">Last active proved:</td><td class="right">${data.user.last_active_proved}</td></tr>
+		<tr><td class="left">Recovery account:</td><td class="right">${data.user.recovery_account}</td></tr>
+		<tr><td class="left">Last account recovery:</td><td class="right">${data.user.last_account_recovery}</td></tr>
+		<tr><td class="left">Reset account:</td><td class="right">${data.user.reset_account}</td></tr>
+		
+		<tr><td class="left1">&nbsp;Счетчики и батарейка</td><td class="right">&nbsp;</td></tr>
+		
+		<tr><td class="left">Comment count:</td><td class="right">${data.user.comment_count}</td></tr>	
+		<tr><td class="left">Lifetime vote count:</td><td class="right">${data.user.lifetime_vote_count}</td></tr>
+		<tr><td class="left">Post count:</td><td class="right">${data.user.post_count}</td></tr>
+		<tr><td class="left">Can vote:</td><td class="right">${data.user.can_vote}</td></tr>
+		<tr><td class="left2">Voting power (<b>Батарея</b>):</td><td class="right">${data.user.voting_power/100}</td></tr>
+		<tr><td class="left2">Last vote time:</td><td class="right">${data.user.last_vote_time}</td></tr>	
+		
+		<tr><td class="left1">&nbsp;Кошелёк, награды и репутация</td><td class="right">&nbsp;</td></tr>
+		
+		<tr><td class="left">Balance:</td><td class="right">${data.user.balance}</td></tr>
+		<tr><td class="left">Savings balance:</td><td class="right">${data.user.savings_balance}</td></tr>
+		<tr><td class="left">Sbd balance:</td><td class="right">${data.user.sbd_balance}</td></tr>
+		<tr><td class="left">Sbd seconds:</td><td class="right">${data.user.sbd_seconds}</td></tr>
+		<tr><td class="left">Sbd seconds last update:</td><td class="right">${data.user.sbd_seconds_last_update}</td></tr>
+		<tr><td class="left">Sbd last interest payment:</td><td class="right">${data.user.sbd_last_interest_payment}</td></tr>
+		
+		<tr><td class="left">savings_sbd_balance:</td><td class="right">${data.user.savings_sbd_balance}</td></tr>
+		<tr><td class="left">savings_sbd_seconds:</td><td class="right">${data.user.savings_sbd_seconds}</td></tr>
+		<tr><td class="left">savings_sbd_seconds_last_update:</td><td class="right">${data.user.savings_sbd_seconds_last_update}</td></tr>
+		<tr><td class="left">savings_sbd_last_interest_payment:</td><td class="right">${data.user.savings_sbd_last_interest_payment}</td></tr>
+		<tr><td class="left">savings_withdraw_requests:</td><td class="right">${data.user.savings_withdraw_requests}</td></tr>
+		<tr><td class="left">reward_sbd_balance:</td><td class="right">${data.user.reward_sbd_balance}</td></tr>
+		<tr><td class="left">reward_steem_balance:</td><td class="right">${data.user.reward_steem_balance}</td></tr>
+		<tr><td class="left">reward_vesting_balance:</td><td class="right">${data.user.reward_vesting_balance}</td></tr>
+		<tr><td class="left">reward_vesting_steem:</td><td class="right">${data.user.reward_vesting_steem}</td></tr>
+		<tr><td class="left">vesting_shares:</td><td class="right">${data.user.vesting_shares}</td></tr>
+		<tr><td class="left">delegated_vesting_shares:</td><td class="right">${data.user.delegated_vesting_shares}</td></tr>
+		<tr><td class="left">received_vesting_shares:</td><td class="right">${data.user.received_vesting_shares}</td></tr>
+		<tr><td class="left">vesting_withdraw_rate:</td><td class="right">${data.user.vesting_withdraw_rate}</td></tr>
+		<tr><td class="left">next_vesting_withdrawal:</td><td class="right">${data.user.next_vesting_withdrawal}</td></tr>
+		<tr><td class="left">withdrawn:</td><td class="right">${data.user.withdrawn}</td></tr>
+		<tr><td class="left">withdraw_routes:</td><td class="right">${data.user.withdraw_routes}</td></tr>
+		<tr><td class="left">curation_rewards:</td><td class="right">${data.user.curation_rewards}</td></tr>
+		<tr><td class="left">posting_rewards:</td><td class="right">${data.user.posting_rewards}</td></tr>
+		<tr><td class="left">proxied_vsf_votes:</td><td class="right">${data.user.proxied_vsf_votes}</td></tr>
+		
+		<tr><td class="left">witnesses_voted_for:</td><td class="right">${data.user.witnesses_voted_for}</td></tr>
+		<tr><td class="left">average_bandwidth:</td><td class="right">${data.user.average_bandwidth}</td></tr>
+		<tr><td class="left">lifetime_bandwidth:</td><td class="right">${data.user.lifetime_bandwidth}</td></tr>
+		<tr><td class="left">last_bandwidth_update:</td><td class="right">${data.user.last_bandwidth_update}</td></tr>
+		<tr><td class="left">average_market_bandwidth:</td><td class="right">${data.user.average_market_bandwidth}</td></tr>
+		<tr><td class="left">lifetime_market_bandwidth:</td><td class="right">${data.lifetime_market_bandwidth}</td></tr>
+		<tr><td class="left">last_market_bandwidth_update:</td><td class="right">${data.user.last_market_bandwidth_update}</td></tr>
+		<tr><td class="left">last_post:</td><td class="right">${data.user.last_post}</td></tr>
+		<tr><td class="left">last_root_post:</td><td class="right">${data.user.last_root_post}</td></tr>
+		<tr><td class="left">vesting_balance:</td><td class="right">${data.user.vesting_balance}</td></tr>
+		<tr><td class="left">reputation:</td><td class="right">${data.user.reputation}</td></tr>		
+		
+		
+		
+		</table>`
+                    
+        
+        $(".mypanel").html(text);
+    });
+}
+
+
+
+    
+    
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- particles.js container -->
+<div id="particles-js"></div>
+<div id="page-wrapper" class="mypanel">
+
+</div>
+
+<div id="page-wrapper" class="find" style="position:fixed; left:400px; top: 20px;">
+ <form action="" method="post" onsubmit="sendi(); return false">
+  <p><b>Введите имя пользователя сети:</b></p>
+  <p><input type="input" name="names" value="coar" id="names"><input type="submit" value="Глянуть"></p>
+ </form>
+</div>
+
+
+<!-- scripts -->
+<script src="../particles.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+  var count_particles, stats, update;
+  stats = new Stats;
+  stats.setMode(0);
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.left = '0px';
+  stats.domElement.style.top = '0px';
+  document.body.appendChild(stats.domElement);
+  count_particles = document.querySelector('.js-count-particles');
+  update = function() {
+    stats.begin();
+    stats.end();
+    if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+      count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+    }
+    requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+</script>
+
+</body>
+</html>
